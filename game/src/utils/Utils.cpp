@@ -22,6 +22,9 @@ void PrintGrid(const vector<vector<int>>& grid)
             case GOAL:
                 c = 'X';
                 break;
+            case VISITED:
+                c = 'V';
+                break;
             default:
                 c = '.';
                 break;
@@ -32,6 +35,17 @@ void PrintGrid(const vector<vector<int>>& grid)
         cout << endl;
     }
 }
+
+void ModifyGridWithStep(vector<vector<int>>& grid, const DisplayInfo& display_info, int step)
+{
+    int x;
+    int y;
+    x = display_info.visited_order[step].x;
+    y = display_info.visited_order[step].y;
+
+    grid[x][y] = display_info.visited_order[step].value;
+}
+
 
 void ModifyGridWithPath(vector<vector<int>>& grid, const vector<GridNode>& path)
 {

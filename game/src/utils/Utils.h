@@ -11,3 +11,6 @@ void PrintGrid(const vector<vector<int>>& grid);
 
 // Mark the start and end node of the path
 void ModifyGridWithPath(vector<vector<int>>& grid, const vector<GridNode>& path);
+
+// get display_queue's grid value to modify grid, step by step
+void ModifyGridWithStep(vector<vector<int>>& grid, const DisplayInfo& display_info, int step);
