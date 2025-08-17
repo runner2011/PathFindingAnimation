@@ -31,7 +31,7 @@ Engine::Engine(EngineConfig cfg) : cfg_(cfg) {
 
 int Engine::run(IGame& game) {
     std::signal(SIGINT, on_sigint);
-    game.on_init();
+    game.on_init(this);
 
     auto last = Clock::now();
     double acc = 0.0;

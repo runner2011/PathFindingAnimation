@@ -28,6 +28,8 @@ using namespace mini;
 
 struct DemoGame : IGame {
 
+    Engine* _engine;
+
     vector<vector<int>> grid = {
         {0, 0, 0, 0, 0},
         {0, 1, 1, 1, 0},
@@ -44,9 +46,10 @@ struct DemoGame : IGame {
     DisplayInfo display_info;
     int frame = 0;
     
-    void on_init() override {
+    void on_init(Engine* engine) override {
         std::cout << "[DemoGame] init \n";
 
+        _engine = engine;
         vector<GridNode> result = BreadthFirstSearch(grid, startX, startY, endX, endY, display_info);
 
         PrintGrid(grid);
@@ -65,7 +68,7 @@ struct DemoGame : IGame {
     }
 
     void on_update(double dt) override {
-        // render_grid(grid, frame);
+        render_grid(grid, frame);
         cout << "frame " << frame << "\n";
         frame++;
     }
@@ -73,14 +76,25 @@ struct DemoGame : IGame {
     void render_grid(vector<vector<int>>& grid, int step) {
         /*
         /* 渲染算法
+		/* 逐个打印所有格子
         */
 
-        ModifyGridWithStep(grid, display_info, step);
-        PrintGrid(grid);
+        if (step < display_info.visited_order.size()) { 
+            ModifyGridWithStep(grid, display_info, step);
+            PrintGrid(grid);
+        }
+        else
+        {
+            if (_engine)
+            {
+                _engine->request_quit();
+            }
+        }
 
     }
 
     void on_shutdown() override {
+		_engine = nullptr;
         std::cout << "[DemoGame] shutdown.\n";
     }
 };
@@ -90,7 +104,7 @@ struct DemoGame : IGame {
 
 int main(int argc, char** argv) 
 {
-    int hz = 60;
+    int hz = 1;
     if (argc >= 2) {
         int parsed = std::atoi(argv[1]);
         if (parsed > 0 && parsed <= 1000) hz = parsed;
@@ -103,21 +117,6 @@ int main(int argc, char** argv)
     DemoGame game;          // ⚠️ 想要纯框架？用你自己的 IGame 实现替换它即可。
     engine.run(game);
 
-    
-    // if (!result.empty()) {
-    //     cout << "Shortest path:" << endl;
-    //     for (const GridNode& node : result) {
-    //         cout << "Node at (" << node.x << ", " << node.y << ") with value: " << node.value << endl;
-    //     }
-
-    //     // Modify the grid to display the path
-    //     ModifyGridWithPath(grid, result);
-    //     cout << "Grid with path:" << endl;
-    //     PrintGrid(grid);
-    // }
-    // else {
-    //     cout << "No path found." << endl;
-    // }
 
     return 0;
 }

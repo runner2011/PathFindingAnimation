@@ -11,9 +11,11 @@
 
 namespace mini {
 
+class Engine;
+
 struct IGame {
     virtual ~IGame() = default;
-    virtual void on_init() {}
+    virtual void on_init(Engine* engine) {}
     virtual void on_update(double /*dt*/) {}
     virtual void on_shutdown() {}
 };
