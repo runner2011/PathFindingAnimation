@@ -53,7 +53,7 @@ vector<GridNode> BreadthFirstSearch(vector<vector<int>>& grid, int startX, int s
                 parent[toKey(newX, newY)] = { x, y }; // Record the parent of the new node
                 
                 //for anim display
-                disp_info.visited_order.push_back({ x, y, VISITED });
+                disp_info.visited_order.push_back({ newX, newY, VISITED });
             }
         }
     }
