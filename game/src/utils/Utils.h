@@ -1,5 +1,6 @@
 #include "pathfinder/Grid.h"
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -17,3 +18,6 @@ void ModifyGridWithPath(vector<vector<int>>& grid, const vector<GridNode>& path)
 
 // get display_queue's grid value to modify grid, step by step
 void ModifyGridWithStep(vector<vector<int>>& grid, const DisplayInfo& display_info, int step);
+
+// Read map
+vector<vector<int>> ReadMap(const std::string& file_name);

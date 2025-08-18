@@ -38,9 +38,12 @@ struct DemoGame : IGame {
         {0, 0, 0, 0, 0}
     };
 
+    // Config
+    bool readGridFromFile = true;
+
     // Example usage
     int startX = 0, startY = 0;
-    int endX = 2, endY = 4; // Define the end point
+    int endX = 2, endY = 4;
 
     // Display anim
     DisplayInfo display_info;
@@ -54,6 +57,14 @@ struct DemoGame : IGame {
 
         _engine = engine;
         frame = 0;
+
+        if (readGridFromFile) {
+            grid = ReadMap("maze.txt");
+            //Set start point and end point
+            startX = 1, startY = 0;
+            endX = 30, endY = 19; 
+        }
+
         finded_path = BreadthFirstSearch(grid, startX, startY, endX, endY, display_info);
 
         PrintGrid(grid);
@@ -124,7 +135,7 @@ int main(int argc, char** argv)
     cfg.target_hz = hz;
 
     Engine engine{cfg};
-    DemoGame game;          // ⚠️ 想要纯框架？用你自己的 IGame 实现替换它即可。
+    DemoGame game;          
     engine.run(game);
 
 

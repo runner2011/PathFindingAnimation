@@ -1,5 +1,6 @@
 #include "Utils.h"
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -79,6 +80,29 @@ void ModifyGridWithStep(vector<vector<int>>& grid, const DisplayInfo& display_in
     grid[x][y] = display_info.visited_order[step].value;
 }
 
+vector<vector<int>> ReadMap(const std::string &file_name)
+{
+    std::ifstream fin(file_name);
+    if (!fin) {
+        throw std::runtime_error("Can't open: " + file_name);
+    }
+
+    std::vector<std::vector<int>> grid;
+    std::string line;
+
+    while (std::getline(fin, line)) {
+        if (line.empty()) continue;
+        std::vector<int> row;
+        for (char c : line) {
+            if (c == '0' || c == '1') {
+                row.push_back(c - '0');  // '0' → 0, '1' → 1
+            }
+        }
+        grid.push_back(row);
+    }
+
+    return grid;
+}
 
 void ModifyGridWithPath(vector<vector<int>>& grid, const vector<GridNode>& path)
 {
