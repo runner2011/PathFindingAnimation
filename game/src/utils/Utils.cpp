@@ -1,6 +1,7 @@
 #include "Utils.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -120,4 +121,24 @@ void ModifyGridWithPath(vector<vector<int>>& grid, const vector<GridNode>& path)
             grid[node.x][node.y] = PATH; 
         }
     }
+}
+
+std::string BuildGridStringWithDeco(const std::vector<std::vector<int>>& grid) {
+    std::ostringstream oss;
+    for (size_t r = 0; r < grid.size(); ++r) {
+        for (size_t c = 0; c < grid[r].size(); ++c) {
+            char ch = ' ';
+            switch (grid[r][c]) {
+                case BLOCK:   ch = '#'; break;
+                case PATH:    ch = 'P'; break;
+                case START:   ch = 'O'; break;
+                case GOAL:    ch = 'X'; break;
+                case VISITED: ch = 'V'; break;
+                default:      ch = '.'; break;
+            }
+            oss << ch;
+        }
+        oss << '\n';
+    }
+    return oss.str();
 }

@@ -21,3 +21,6 @@ void ModifyGridWithStep(vector<vector<int>>& grid, const DisplayInfo& display_in
 
 // Read map
 vector<vector<int>> ReadMap(const std::string& file_name);
+
+// Build whole-frame string for flicker-free rendering
+std::string BuildGridStringWithDeco(const std::vector<std::vector<int>>& grid);

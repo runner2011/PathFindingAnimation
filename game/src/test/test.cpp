@@ -37,7 +37,7 @@ struct DemoGame : IGame {
         {0, 1, 0, 0, 0},
         {0, 0, 0, 0, 0}
     };
-
+public:
     // Config
     bool readGridFromFile = true;
 
@@ -59,10 +59,7 @@ struct DemoGame : IGame {
         frame = 0;
 
         if (readGridFromFile) {
-            grid = ReadMap("maze.txt");
-            //Set start point and end point
-            startX = 1, startY = 0;
-            endX = 30, endY = 19; 
+            grid = ReadMap("D:/Study/AI/pathfinginganimation/build/maze.txt");
         }
 
         finded_path = BreadthFirstSearch(grid, startX, startY, endX, endY, display_info);
@@ -79,39 +76,48 @@ struct DemoGame : IGame {
             cout << "No path found." << endl;
         }
 
+		// Clear Screen
+        cout << "\x1b[2J";
+
         std::cout << "END OF [DemoGame] init \n";
     }
 
     void on_update(double dt) override {
-		// Clear Screen
-        cout << "\x1b[2J";
+
 		
-        render_grid(grid, frame);
+        std::string frameStr = render_grid(grid, frame);
+		//"\x1b[H": Move cursor to up-left 
+        std::cout << "\x1b[H" << frameStr << std::flush;
 		
         cout << "frame " << frame << "\n";
         frame++;
     }
 
-    void render_grid(vector<vector<int>>& grid, int step) {
+    std::string render_grid(vector<vector<int>>& grid, int step) {
         /*
         /* 渲染算法
 		/* 逐个打印所有格子
         */
+        string str; 
 
+        // Print all visited grids first
         if (step < display_info.visited_order.size()) { 
             ModifyGridWithStep(grid, display_info, step);
-            PrintGridWithDeco(grid);
-        }
+	        str = BuildGridStringWithDeco(grid);
+	    }
+        // Print found path
         else
         {
+            cout << "Print all visited grids done! \n";
             ModifyGridWithPath(grid, finded_path);
-            PrintGridWithDeco(grid);
+            str = BuildGridStringWithDeco(grid);
             if (_engine)
             {
                 _engine->request_quit();
             }
-        }
 
+        }
+        return str;
     }
 
     void on_shutdown() override {
@@ -131,11 +137,22 @@ int main(int argc, char** argv)
         if (parsed > 0 && parsed <= 1000) hz = parsed;
     }
 
+    /// config 
     EngineConfig cfg;
     cfg.target_hz = hz;
 
     Engine engine{cfg};
-    DemoGame game;          
+    DemoGame game;
+    game.readGridFromFile = true;
+    if (game.readGridFromFile) {
+        game.startX = 1;
+        game.startY = 0;
+        game.endX = 7;
+        game.endY = 8;
+    }
+
+    ///
+
     engine.run(game);
 
 
