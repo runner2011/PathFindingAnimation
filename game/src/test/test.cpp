@@ -100,8 +100,10 @@ public:
         */
         string str; 
 
-        // Print all visited grids first
-        if (step < display_info.visited_order.size()) { 
+        // Print all visited grids first. 
+        // Should immediate stop print display visited order if already find Goal.
+        if (step < display_info.visited_order.size() && 
+        !(display_info.visited_order[step].x == endX && display_info.visited_order[step].y == endY)) { 
             ModifyGridWithStep(grid, display_info, step);
 	        str = BuildGridStringWithDeco(grid);
 	    }
