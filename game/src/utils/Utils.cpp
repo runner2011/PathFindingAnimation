@@ -36,6 +36,39 @@ void PrintGrid(const vector<vector<int>>& grid)
     }
 }
 
+void PrintGridWithDeco(const vector<vector<int>> &grid)
+{
+    std::string c = ".";
+    for (const auto& row : grid) {
+        for (int val : row) {
+            switch (val)
+            {
+            case BLOCK:
+                c = "#";//"██";
+                break;
+            case PATH:
+                c = "P";
+                break;
+            case START:
+                c = "O";
+                break;
+            case GOAL:
+                c = "X";
+                break;
+            case VISITED:
+                c = "V";
+                break;
+            default:
+                c = ".";
+                break;
+            }
+
+            cout << c << " ";
+        }
+        cout << endl;
+    }
+}
+
 void ModifyGridWithStep(vector<vector<int>>& grid, const DisplayInfo& display_info, int step)
 {
     int x;

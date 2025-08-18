@@ -89,12 +89,12 @@ struct DemoGame : IGame {
 
         if (step < display_info.visited_order.size()) { 
             ModifyGridWithStep(grid, display_info, step);
-            PrintGrid(grid);
+            PrintGridWithDeco(grid);
         }
         else
         {
             ModifyGridWithPath(grid, finded_path);
-            PrintGrid(grid);
+            PrintGridWithDeco(grid);
             if (_engine)
             {
                 _engine->request_quit();
