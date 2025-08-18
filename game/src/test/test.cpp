@@ -45,18 +45,22 @@ struct DemoGame : IGame {
     // Display anim
     DisplayInfo display_info;
     int frame = 0;
+
+    // finded path
+    vector<GridNode> finded_path;
     
     void on_init(Engine* engine) override {
         std::cout << "[DemoGame] init \n";
 
         _engine = engine;
-        vector<GridNode> result = BreadthFirstSearch(grid, startX, startY, endX, endY, display_info);
+        frame = 0;
+        finded_path = BreadthFirstSearch(grid, startX, startY, endX, endY, display_info);
 
         PrintGrid(grid);
 
-        if (!result.empty()) {
+        if (!finded_path.empty()) {
             cout << "Shortest path:" << endl;
-            for (const GridNode& node : result) {
+            for (const GridNode& node : finded_path) {
                 cout << "Node at (" << node.x << ", " << node.y << ") with value: " << node.value << endl;
             }
         }
@@ -68,7 +72,11 @@ struct DemoGame : IGame {
     }
 
     void on_update(double dt) override {
+		// Clear Screen
+        cout << "\x1b[2J";
+		
         render_grid(grid, frame);
+		
         cout << "frame " << frame << "\n";
         frame++;
     }
@@ -85,6 +93,8 @@ struct DemoGame : IGame {
         }
         else
         {
+            ModifyGridWithPath(grid, finded_path);
+            PrintGrid(grid);
             if (_engine)
             {
                 _engine->request_quit();
