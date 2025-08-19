@@ -59,7 +59,7 @@ public:
         frame = 0;
 
         if (readGridFromFile) {
-            grid = ReadMap("D:/Study/AI/pathfinginganimation/build/maze.txt");
+            grid = ReadMap("maze.txt");
         }
 
         finded_path = BreadthFirstSearch(grid, startX, startY, endX, endY, display_info);
