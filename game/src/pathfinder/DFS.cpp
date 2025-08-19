@@ -4,7 +4,7 @@
 #include <unordered_map>
 
 
-vector<GridNode> DepthFirstSearch(vector<vector<int>>& grid, int startX, int startY, int endX, int endY)
+vector<GridNode> DepthFirstSearch(vector<vector<int>>& grid, int startX, int startY, int endX, int endY, DisplayInfo* disp_info)
 {
 	const int a = BLOCK;
 	vector<GridNode> path;
@@ -52,6 +52,10 @@ vector<GridNode> DepthFirstSearch(vector<vector<int>>& grid, int startX, int sta
 				visited[newX][newY] = true;
 				stack.push({ newX, newY });
 				parent[toKey(newX, newY)] = { x, y }; // Record the parent of the new node
+
+				if (disp_info) {
+					disp_info->visited_order.push_back({ newX, newY, VISITED });
+				}
 			}
 		}
 	}

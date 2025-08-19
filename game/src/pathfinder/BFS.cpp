@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <unordered_map>
 
-vector<GridNode> BreadthFirstSearch(vector<vector<int>>& grid, int startX, int startY, int endX, int endY)
+vector<GridNode> BreadthFirstSearch(vector<vector<int>>& grid, int startX, int startY, int endX, int endY, DisplayInfo* disp_info)
 {
     const int a = BLOCK;
     vector<GridNode> path;
@@ -51,6 +51,11 @@ vector<GridNode> BreadthFirstSearch(vector<vector<int>>& grid, int startX, int s
                 visited[newX][newY] = true;
                 queue.push({ newX, newY });
                 parent[toKey(newX, newY)] = { x, y }; // Record the parent of the new node
+
+                //for anim display
+                if (disp_info) {
+                    disp_info->visited_order.push_back({ newX, newY, VISITED });
+                }
             }
         }
     }

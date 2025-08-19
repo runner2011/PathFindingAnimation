@@ -1,6 +1,6 @@
 #include "utils/Utils.h"
 #include <iostream>
-#include "pathfinder/BFS_anim.h"
+#include "pathfinder/BFS.h"
 
 #include "mini_engine.h"
 
@@ -62,7 +62,7 @@ public:
             grid = ReadMap("maze.txt");
         }
 
-        finded_path = BreadthFirstSearch(grid, startX, startY, endX, endY, display_info);
+        finded_path = BreadthFirstSearch(grid, startX, startY, endX, endY, &display_info);
 
         PrintGrid(grid);
 
