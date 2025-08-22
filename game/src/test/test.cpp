@@ -1,7 +1,9 @@
 #include "utils/Utils.h"
 #include <iostream>
 #include "pathfinder/BFS.h"
-
+#include "pathfinder/GreedySearch.h"
+#include "pathfinder/Dijkstra.h"
+#include "pathfinder/AStar.h"
 #include "mini_engine.h"
 
 
@@ -68,9 +70,6 @@ public:
                 if (grid[x][y] == START) {
                     startX = x;
                     startY = y;
-
-                    // Clear start position to normal walk grid
-                    grid[x][y] = 0;
                 }
             }
         }
@@ -81,9 +80,6 @@ public:
                 if (grid[x][y] == GOAL) {
                     endX = x;
                     endY = y;
-
-                    // Clear end position to normal walk grid
-                    grid[x][y] = 0;
                 }
             }
         }

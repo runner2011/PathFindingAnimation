@@ -47,7 +47,7 @@ vector<GridNode> DepthFirstSearch(vector<vector<int>>& grid, int startX, int sta
 		for (auto& dir : directions) {
 			int newX = x + dir.first;
 			int newY = y + dir.second;
-			if (newX >= 0 && newY >= 0 && newX < rows && newY < cols && !visited[newX][newY] && grid[newX][newY] == 0) {
+			if (newX >= 0 && newY >= 0 && newX < rows && newY < cols && !visited[newX][newY] && IsWalkable(grid[newX][newY])) {
 				visited[newX][newY] = true;
 				stack.push({ newX, newY });
 				parent[toKey(newX, newY)] = { x, y }; // Record the parent of the new node

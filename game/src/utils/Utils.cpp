@@ -15,7 +15,7 @@ void PrintGrid(const vector<vector<int>>& grid)
             case BLOCK:
                 c = '#';
                 break;
-            case PATH:
+            case BEST_PATH:
                 c = 'P';
                 break;
             case START:
@@ -48,7 +48,7 @@ void PrintGridWithDeco(const vector<vector<int>> &grid)
             case BLOCK:
                 c = "#";//"██";
                 break;
-            case PATH:
+            case BEST_PATH:
                 c = "P";
                 break;
             case START:
@@ -116,7 +116,7 @@ void ModifyGridWithPath(vector<vector<int>>& grid, const vector<GridNode>& path)
             grid[node.x][node.y] = GOAL;
         }
         else if (node.x >= 0 && node.x < grid.size() && node.y >= 0 && node.y < grid[0].size()) {
-            grid[node.x][node.y] = PATH; 
+            grid[node.x][node.y] = BEST_PATH; 
         }
     }
 }
@@ -128,7 +128,7 @@ std::string BuildGridStringWithDeco(const std::vector<std::vector<int>>& grid) {
             char ch = ' ';
             switch (grid[r][c]) {
                 case BLOCK:   ch = '#'; break;
-                case PATH:    ch = 'P'; break;
+                case BEST_PATH:    ch = 'P'; break;
                 case START:   ch = 'O'; break;
                 case GOAL:    ch = 'X'; break;
                 case VISITED: ch = 'V'; break;

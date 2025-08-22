@@ -1,6 +1,15 @@
 #pragma once
 #include <vector>
 
+
+#define PATH 0
+#define BLOCK 1
+#define BEST_PATH 2
+#define START 3
+#define GOAL 4
+
+#define VISITED 5
+
 class GridNode
 {
 public:
@@ -14,9 +23,11 @@ public:
     std::vector<GridNode> visited_order;
 };
 
-#define BLOCK 1
-#define PATH 2
-#define START 3
-#define GOAL 4
+inline bool IsWalkable(int value)
+{
+    if (value == PATH || value == START || value == GOAL) {
+        return true;
+    }
+    return false;
+}
 
-#define VISITED 5
