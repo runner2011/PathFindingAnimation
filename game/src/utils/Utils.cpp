@@ -95,9 +95,7 @@ vector<vector<int>> ReadMap(const std::string &file_name)
         if (line.empty()) continue;
         std::vector<int> row;
         for (char c : line) {
-            if (c == '0' || c == '1') {
                 row.push_back(c - '0');  // '0' → 0, '1' → 1
-            }
         }
         grid.push_back(row);
     }

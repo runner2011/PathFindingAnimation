@@ -5,7 +5,6 @@
 
 vector<GridNode> BreadthFirstSearch(vector<vector<int>>& grid, int startX, int startY, int endX, int endY, DisplayInfo* disp_info)
 {
-    const int a = BLOCK;
     vector<GridNode> path;
     int rows = static_cast<int>(grid.size());
     int cols = static_cast<int>(grid[0].size());

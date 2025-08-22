@@ -62,6 +62,36 @@ public:
             grid = ReadMap("maze.txt");
         }
 
+        //read grid's value, if equal 3(define START is 3), set (startX,startY) = grid[x][y]
+        for (int x = 0; x < grid.size(); x++) {
+            for (int y = 0; y < grid[0].size(); y++) {
+                if (grid[x][y] == START) {
+                    startX = x;
+                    startY = y;
+
+                    // Clear start position to normal walk grid
+                    grid[x][y] = 0;
+                }
+            }
+        }
+
+        //read grid's value, if equal 4(define GOAL is 4), set (endX,endY) = grid[x][y]
+        for (int x = 0; x < grid.size(); x++) {
+            for (int y = 0; y < grid[0].size(); y++) {
+                if (grid[x][y] == GOAL) {
+                    endX = x;
+                    endY = y;
+
+                    // Clear end position to normal walk grid
+                    grid[x][y] = 0;
+                }
+            }
+        }
+
+        cout << "Find start:" << endl;
+        cout << "Start grid:" << startX << " " << startY << endl;
+        cout << "Goal grid:" << endX << " " << endY << endl;
+
         finded_path = BreadthFirstSearch(grid, startX, startY, endX, endY, &display_info);
 
         PrintGrid(grid);
@@ -71,6 +101,7 @@ public:
             for (const GridNode& node : finded_path) {
                 cout << "Node at (" << node.x << ", " << node.y << ") with value: " << node.value << endl;
             }
+            cout << "Shortest path length:" << finded_path.size() << endl;
         }
         else {
             cout << "No path found." << endl;
@@ -146,13 +177,6 @@ int main(int argc, char** argv)
     Engine engine{cfg};
     DemoGame game;
     game.readGridFromFile = true;
-    if (game.readGridFromFile) {
-        game.startX = 1;
-        game.startY = 0;
-        game.endX = 7;
-        game.endY = 8;
-    }
-
     ///
 
     engine.run(game);

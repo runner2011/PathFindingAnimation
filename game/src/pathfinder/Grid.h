@@ -1,8 +1,5 @@
 #pragma once
-
 #include <vector>
-
-using namespace std;
 
 class GridNode
 {
@@ -14,7 +11,7 @@ public:
 
 struct DisplayInfo {
 public:
-    vector<GridNode> visited_order;
+    std::vector<GridNode> visited_order;
 };
 
 #define BLOCK 1
