@@ -136,7 +136,7 @@ std::string BuildGridStringWithDeco(const std::vector<std::vector<int>>& grid) {
                 case VISITED: ch = 'V'; break;
                 default:      ch = '.'; break;
             }
-            oss << ch;
+            oss << ch << " ";
         }
         oss << '\n';
     }
