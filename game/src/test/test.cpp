@@ -1,6 +1,7 @@
 #include "utils/Utils.h"
 #include <iostream>
 #include "pathfinder/BFS.h"
+#include "pathfinder/DFS.h"
 #include "pathfinder/GreedySearch.h"
 #include "pathfinder/Dijkstra.h"
 #include "pathfinder/AStar.h"
