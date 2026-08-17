@@ -11,22 +11,8 @@ using namespace std;
 
 vector<GridNode> AStar(vector<vector<int>>& grid, int startX, int startY, int endX, int endY, DisplayInfo* disp_info) {
     vector<GridNode> path;
-    if (disp_info) {
-        disp_info->visited_order.clear();
-    }
-
-    if (grid.empty() || grid[0].empty()) {
-        return path;
-    }
-
     int rows = static_cast<int>(grid.size());
     int cols = static_cast<int>(grid[0].size());
-
-    if (startX < 0 || startX >= rows || startY < 0 || startY >= cols ||
-        endX < 0 || endX >= rows || endY < 0 || endY >= cols ||
-        !IsWalkable(grid[startX][startY]) || !IsWalkable(grid[endX][endY])) {
-        return path;
-    }
 
     auto heuristic = [&](int x, int y) {
         return abs(x - endX) + abs(y - endY); // Manhattan distance
@@ -41,23 +27,13 @@ vector<GridNode> AStar(vector<vector<int>>& grid, int startX, int startY, int en
     // Initialize priority queue and parent tracking
     priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<>> queue;
     unordered_map<int, pair<int, int>> parent;
-    queue.push({heuristic(startX, startY), {startX, startY}});
+    queue.push({0, {startX, startY}});
     parent[toKey(startX, startY)] = {-1, -1};
 
     while (!queue.empty()) {
-        auto [priority, node] = queue.top();
+        auto [dist, node] = queue.top();
         queue.pop();
         int x = node.first, y = node.second;
-
-        // Ignore an outdated queue entry after a shorter route was discovered.
-        if (priority != distance[x][y] + heuristic(x, y)) {
-            continue;
-        }
-
-        // Record nodes when they are actually expanded, not merely discovered.
-        if (disp_info && (x != startX || y != startY)) {
-            disp_info->visited_order.push_back({x, y, VISITED});
-        }
 
         if (x == endX && y == endY) {
             while (x != -1 && y != -1) {
@@ -76,11 +52,15 @@ vector<GridNode> AStar(vector<vector<int>>& grid, int startX, int startY, int en
             int newX = x + dir.first;
             int newY = y + dir.second;
             if (newX >= 0 && newY >= 0 && newX < rows && newY < cols && IsWalkable(grid[newX][newY])) {
-                int newDist = distance[x][y] + 1;
-                if (newDist < distance[newX][newY]) {
+                int newDist = dist + 1;
+                if (newDist < distance[newX][newY] && heuristic(newX, newY) < heuristic(x, y)) {
                     distance[newX][newY] = newDist;
                     parent[toKey(newX, newY)] = {x, y};
-                    queue.push({newDist + heuristic(newX, newY), {newX, newY}});
+                    queue.push({newDist, {newX, newY}});
+
+                    if (disp_info) {
+                        disp_info->visited_order.push_back({ newX, newY, VISITED });
+                    }
                 }
             }
         }
@@ -88,3 +68,4 @@ vector<GridNode> AStar(vector<vector<int>>& grid, int startX, int startY, int en
 
     return path;
 }
+
