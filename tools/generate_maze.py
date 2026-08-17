@@ -61,5 +61,5 @@ if __name__ == "__main__":
     maze_text = write_file(g)
 
     # 写入文件
-    with open("maze.txt", "w", encoding="utf-8") as f:
+    with open("build/maze.txt", "w", encoding="utf-8") as f:
         f.write(maze_text)
