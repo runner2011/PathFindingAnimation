@@ -5,34 +5,44 @@
 
 using namespace std;
 
+namespace {
+
+struct CellStyle {
+    char character;
+    const char* color;
+};
+
+constexpr const char* ANSI_RESET = "\x1b[0m";
+constexpr CellStyle PATH_STYLE      = {'.', "\x1b[90m"};
+constexpr CellStyle BLOCK_STYLE     = {'#', "\x1b[37m"};
+constexpr CellStyle BEST_PATH_STYLE = {'P', "\x1b[31m"};
+constexpr CellStyle START_STYLE     = {'O', "\x1b[32m"};
+constexpr CellStyle GOAL_STYLE      = {'X', "\x1b[33m"};
+constexpr CellStyle VISITED_STYLE   = {'V', "\x1b[36m"};
+
+void WriteStyledCell(std::ostream& output, int value)
+{
+    CellStyle style = PATH_STYLE;
+    switch (value) {
+        case BLOCK:     style = BLOCK_STYLE; break;
+        case BEST_PATH: style = BEST_PATH_STYLE; break;
+        case START:     style = START_STYLE; break;
+        case GOAL:      style = GOAL_STYLE; break;
+        case VISITED:   style = VISITED_STYLE; break;
+        case PATH:
+        default:        break;
+    }
+
+    output << style.color << style.character << ANSI_RESET << ' ';
+}
+
+} // namespace
+
 void PrintGrid(const vector<vector<int>>& grid)
 {
-    char c = '.';
     for (const auto& row : grid) {
         for (int val : row) {
-            switch (val)
-            {
-            case BLOCK:
-                c = '#';
-                break;
-            case BEST_PATH:
-                c = 'P';
-                break;
-            case START:
-                c = 'O';
-                break;
-            case GOAL:
-                c = 'X';
-                break;
-            case VISITED:
-                c = 'V';
-                break;
-            default:
-                c = '.';
-                break;
-            }
-
-            cout << c << " ";
+            WriteStyledCell(cout, val);
         }
         cout << endl;
     }
@@ -40,35 +50,7 @@ void PrintGrid(const vector<vector<int>>& grid)
 
 void PrintGridWithDeco(const vector<vector<int>> &grid)
 {
-    std::string c = ".";
-    for (const auto& row : grid) {
-        for (int val : row) {
-            switch (val)
-            {
-            case BLOCK:
-                c = "#";//"██";
-                break;
-            case BEST_PATH:
-                c = "P";
-                break;
-            case START:
-                c = "O";
-                break;
-            case GOAL:
-                c = "X";
-                break;
-            case VISITED:
-                c = "V";
-                break;
-            default:
-                c = ".";
-                break;
-            }
-
-            cout << c << " ";
-        }
-        cout << endl;
-    }
+    PrintGrid(grid);
 }
 
 void ModifyGridWithStep(vector<vector<int>>& grid, const DisplayInfo& display_info, int step)
@@ -125,16 +107,7 @@ std::string BuildGridStringWithDeco(const std::vector<std::vector<int>>& grid) {
     std::ostringstream oss;
     for (size_t r = 0; r < grid.size(); ++r) {
         for (size_t c = 0; c < grid[r].size(); ++c) {
-            char ch = ' ';
-            switch (grid[r][c]) {
-                case BLOCK:   ch = '#'; break;
-                case BEST_PATH:    ch = 'P'; break;
-                case START:   ch = 'O'; break;
-                case GOAL:    ch = 'X'; break;
-                case VISITED: ch = 'V'; break;
-                default:      ch = '.'; break;
-            }
-            oss << ch << " ";
+            WriteStyledCell(oss, grid[r][c]);
         }
         oss << '\n';
     }
