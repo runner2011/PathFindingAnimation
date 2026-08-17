@@ -1,3 +1,4 @@
+import argparse
 import random
 
 def generate_maze(h=21, w=31, seed=42):
@@ -50,7 +51,12 @@ def write_file(grid):
     return '\n'.join(lines)
 
 if __name__ == "__main__":
-    g = generate_maze(9, 9, seed=2025)
+    parser = argparse.ArgumentParser(description="Generate a random maze.")
+    parser.add_argument("--h", type=int, default=9, help="maze height (default: 9)")
+    parser.add_argument("--w", type=int, default=9, help="maze width (default: 9)")
+    args = parser.parse_args()
+
+    g = generate_maze(args.h, args.w, seed=2025)
     show(g)
     maze_text = write_file(g)
 
