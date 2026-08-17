@@ -89,7 +89,7 @@ public:
         cout << "Start grid:" << startX << " " << startY << endl;
         cout << "Goal grid:" << endX << " " << endY << endl;
 
-        finded_path = BreadthFirstSearch(grid, startX, startY, endX, endY, &display_info);
+        finded_path = AStar(grid, startX, startY, endX, endY, &display_info);
 
         PrintGrid(grid);
 
@@ -138,8 +138,13 @@ public:
         // Print found path
         else
         {
-            cout << "Print all visited grids done! \n";
-            ModifyGridWithPath(grid, finded_path);
+            if (finded_path.empty()) {
+                cout << "Search finished: goal is unreachable.\n";
+            }
+            else {
+                cout << "Goal found.\n";
+                ModifyGridWithPath(grid, finded_path);
+            }
             str = BuildGridStringWithDeco(grid);
             if (_engine)
             {
