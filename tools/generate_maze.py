@@ -7,7 +7,7 @@ def generate_maze(h=21, w=31, seed=42):
     h = h if h % 2 == 1 else h + 1
     w = w if w % 2 == 1 else w + 1
 
-    WALL, PASS = 1, 0
+    WALL, PASS, START, GOAL = 1, 0, 3, 4
     grid = [[WALL]*w for _ in range(h)]
 
     # 起点选奇数坐标
@@ -34,19 +34,19 @@ def generate_maze(h=21, w=31, seed=42):
         else:
             stack.pop()
 
-    # 开入口与出口
-    grid[1][0] = PASS
-    grid[h-2][w-1] = PASS
+    # 开入口与出口，并写入寻路程序使用的标记
+    grid[1][0] = START
+    grid[h-2][w-1] = GOAL
     return grid
 
 def show(grid):
     # 美化：墙用'██'，路用'  '
-    chars = {1:'██', 0:'  '}
+    chars = {1:'██', 0:'  ', 3:'起 ', 4:'终 '}
     lines = [''.join(chars[v] for v in row) for row in grid]
     print('\n'.join(lines))
 
 def write_file(grid):
-    chars = {1:'1', 0:'0'}
+    chars = {1:'1', 0:'0', 3:'3', 4:'4'}
     lines = [''.join(chars[v] for v in row) for row in grid]
     return '\n'.join(lines)
 
